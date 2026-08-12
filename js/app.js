@@ -8,7 +8,9 @@ const SohamVerseApp = (() => {
     { id: 'heroDecision', number: '04', title: 'WHAT WOULD SOHAM DO?', desc: 'Hero decisions, funny outcomes, major respect.' },
     { id: 'energyCatch', number: '05', title: 'INFINITY ENERGY', desc: 'Catch the good energy. Avoid the bad ones.' },
     { id: 'sohamQuiz', number: '06', title: 'THE SOHAM ARCHIVE', desc: 'A deeply personalized quiz about Soham.' },
-    { id: 'finalBoss', number: '07', title: 'FINAL BOSS', desc: 'The final mission: Level 18.' },
+    { id: 'familyQuiz', number: '07', title: 'FAMILY FILES', desc: 'A family knowledge challenge with birthday stories, dates, and memories.' },
+    { id: 'familyScan', number: '08', title: 'FAMILY SCAN', desc: 'HTML canvas scan to reveal the family archive and PDF memory sheet.' },
+    { id: 'finalBoss', number: '09', title: 'FINAL BOSS', desc: 'The final mission: Level 18.' },
   ];
 
   const state = {
@@ -561,6 +563,8 @@ const SohamVerseApp = (() => {
       heroDecision: () => Games.heroDecision(gameEl, (score) => finalizeGame('heroDecision', score)),
       energyCatch: () => Games.energyCatch(gameEl, (score) => finalizeGame('energyCatch', score)),
       sohamQuiz: () => Games.sohamQuiz(gameEl, (score) => finalizeGame('sohamQuiz', score)),
+      familyQuiz: () => Games.familyQuiz(gameEl, (score) => finalizeGame('familyQuiz', score)),
+      familyScan: () => Games.familyScan(gameEl, (score) => finalizeGame('familyScan', score)),
       finalBoss: () => Games.finalBoss(gameEl, (score) => finalizeGame('finalBoss', score)),
     };
 

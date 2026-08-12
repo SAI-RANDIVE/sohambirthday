@@ -124,6 +124,176 @@ const Games = (() => {
     }, onComplete);
   }
 
+  function familyQuiz(el, onComplete) {
+    const bank = (window.SOHAM_QUESTION_BANK && window.SOHAM_QUESTION_BANK.family) || [
+      {
+        q: "When is Mom's birthday?",
+        options: ["07 January 1973", "06 September 1976", "27 June 2004", "13 August 2008"],
+        a: 1,
+        explanation: "Mom's birthday is 06 September 1976."
+      },
+      {
+        q: "When is Dad's birthday?",
+        options: ["07 January 1973", "06 September 1976", "27 June 2004", "13 August 2008"],
+        a: 0,
+        explanation: "Dad's birthday is 07 January 1973."
+      },
+      {
+        q: "Which date is the family anniversary?",
+        options: ["07 January 1973", "06 September 1976", "27 June 2004", "13 August 2008"],
+        a: 2,
+        explanation: "Their anniversary is 27 June 2004."
+      },
+      {
+        q: "Which date belongs to Soham?",
+        options: ["07 January 1973", "06 September 1976", "27 June 2004", "13 August 2008"],
+        a: 3,
+        explanation: "Soham's birthday is 13 August 2008."
+      },
+      {
+        q: "How many years have Mom and Dad been married in 2026?",
+        options: ["20 years", "21 years", "22 years", "23 years"],
+        a: 2,
+        explanation: "From 2004 to 2026 is 22 years."
+      },
+      {
+        q: "Which date belongs to Mom?",
+        options: ["07 January 1973", "06 September 1976", "27 June 2004", "13 August 2008"],
+        a: 1,
+        explanation: "Mom's date is 06 September 1976."
+      },
+      {
+        q: "Which date belongs to Dad?",
+        options: ["07 January 1973", "06 September 1976", "27 June 2004", "13 August 2008"],
+        a: 0,
+        explanation: "Dad's date is 07 January 1973."
+      },
+      {
+        q: "Which date is the family anniversary?",
+        options: ["07 January 1973", "06 September 1976", "27 June 2004", "13 August 2008"],
+        a: 2,
+        explanation: "The anniversary is 27 June 2004."
+      }
+    ];
+
+    quizRunner(el, {
+      gameNum: '07', title: 'FAMILY FILES',
+      sub: 'Unlock the family archive by answering the most important dates.',
+      questions: bank.slice(0, 8), maxScore: 2200,
+      resultTitle: 'FAMILY FILE VERIFIED',
+    }, onComplete);
+  }
+
+  function familyScan(el, onComplete) {
+    const scanUrl = 'assets/docs/family-archive.pdf';
+    el.innerHTML = `
+      <div class="game-header">
+        <div class="eyebrow">GAME 08</div>
+        <div class="display-lg">FAMILY SCAN</div>
+        <p class="muted">Scan the family archive and reveal the secret file.</p>
+      </div>
+      <div class="game-stats">
+        <span>STATUS <b id="fs-status">SCANNING</b></span>
+        <span>SCORE <b id="fs-score">0</b></span>
+      </div>
+      <div class="game-area" style="padding: 1rem;">
+        <canvas id="family-scan-canvas" width="720" height="440" style="width:100%; height:260px; border:1px solid rgba(255,255,255,0.15); background:#0a0a0a; border-radius:12px; display:block;"></canvas>
+        <div style="display:flex; justify-content:center; gap:1rem; flex-wrap:wrap; margin-top:1rem;">
+          <button class="btn" id="scan-trigger">SCAN ARCHIVE</button>
+          <a class="btn ghost" href="${scanUrl}" target="_blank" rel="noreferrer">OPEN PDF</a>
+        </div>
+        <div style="margin-top:1rem; color: var(--gray); text-align:center; font-size:0.92rem;">
+          Family archive notes: Mom, Dad, anniversary, memories, and the final birthday mission.
+        </div>
+      </div>
+    `;
+
+    const canvas = el.querySelector('#family-scan-canvas');
+    const ctx = canvas.getContext('2d');
+    const statusEl = el.querySelector('#fs-status');
+    const scoreEl = el.querySelector('#fs-score');
+    const trigger = el.querySelector('#scan-trigger');
+
+    let progress = 0;
+    let scanning = false;
+
+    function drawFrame() {
+      const w = canvas.width;
+      const h = canvas.height;
+      ctx.clearRect(0, 0, w, h);
+      ctx.fillStyle = '#0b0b0d';
+      ctx.fillRect(0, 0, w, h);
+
+      ctx.strokeStyle = 'rgba(255,255,255,0.18)';
+      ctx.lineWidth = 1;
+      ctx.strokeRect(18, 18, w - 36, h - 36);
+
+      ctx.fillStyle = 'rgba(230,36,41,0.9)';
+      ctx.fillRect(32, 32, w - 64, h - 64);
+
+      ctx.fillStyle = '#111';
+      ctx.fillRect(56, 56, w - 112, h - 112);
+
+      ctx.fillStyle = '#d9d9d9';
+      ctx.font = 'bold 20px Arial';
+      ctx.fillText('FAMILY ARCHIVE', 88, 110);
+      ctx.font = '16px Arial';
+      ctx.fillText('Mom / Dad / Anniversary / Soham', 88, 140);
+      ctx.fillText('A story of love, support and growth', 88, 170);
+
+      const pulse = (Math.sin(progress * 0.08) + 1) * 0.5;
+      const scanY = 52 + (progress % 100) * 3.2;
+      ctx.fillStyle = 'rgba(230,36,41,0.5)';
+      ctx.fillRect(62, scanY, w - 124, 12);
+      ctx.fillStyle = `rgba(255,255,255,${0.25 + pulse * 0.65})`;
+      ctx.fillRect(62, scanY + 2, w - 124, 4);
+
+      ctx.fillStyle = '#e6e6e6';
+      ctx.font = '18px Arial';
+      ctx.fillText('PERSONAL DATA: VERIFIED', 88, 258);
+      ctx.fillText('BIRTHDAY MEMORY: UNLOCKED', 88, 288);
+      ctx.fillText('FAMILY LEGACY: ACTIVE', 88, 318);
+      ctx.fillText('NEXT MISSION: LEVEL 18', 88, 348);
+
+      if (scanning) {
+        ctx.strokeStyle = '#ffd166';
+        ctx.beginPath();
+        ctx.moveTo(88, 216);
+        ctx.lineTo(w - 88, 216);
+        ctx.stroke();
+      }
+    }
+
+    function animate() {
+      progress += 1;
+      drawFrame();
+      requestAnimationFrame(animate);
+    }
+
+    trigger.addEventListener('click', () => {
+      scanning = true;
+      statusEl.textContent = 'REVEALING';
+      scoreEl.textContent = '1000';
+      setTimeout(() => {
+        scanning = false;
+        statusEl.textContent = 'ARCHIVE OPEN';
+        scoreEl.textContent = '1500';
+        setTimeout(() => {
+          const score = 1500;
+          sfx('levelup');
+          resultBlock(el, {
+            title: 'ARCHIVE UNLOCKED',
+            sub: 'Family story, dates, and memories confirmed.',
+            scoreLabel: `+${score} XP`,
+          }, () => onComplete(score));
+        }, 700);
+      }, 2000);
+    });
+
+    drawFrame();
+    animate();
+  }
+
   function quizRunner(el, cfg, onComplete) {
     el.innerHTML = `
       <div class="game-header">
@@ -570,5 +740,5 @@ const Games = (() => {
     renderQ();
   }
 
-  return { reaction, marvelQuiz, memoryMatch, heroDecision, energyCatch, sohamQuiz, finalBoss };
+  return { reaction, marvelQuiz, memoryMatch, heroDecision, energyCatch, sohamQuiz, familyQuiz, familyScan, finalBoss };
 })();
