@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>SOHAMVERSE — Level 18</title>
+<meta name="description" content="An interactive cinematic birthday experience.">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<canvas id="particle-canvas"></canvas>
+
+<!-- Global HUD: mute, skip, restart -->
+<div id="global-hud">
+  <div class="hud-left" id="hud-title">SOHAMVERSE</div>
+  <div class="hud-right">
+    <button class="hud-btn" id="btn-mute" title="Mute / unmute" aria-label="Mute or unmute sound">🔊</button>
+    <button class="hud-btn" id="btn-restart" title="Restart experience" aria-label="Restart the whole experience">⟳</button>
+  </div>
+</div>
+
+<div id="app">
+
+  <!-- ============================================================= -->
+  <!-- SOUND GATE (autoplay permission)                                -->
+  <!-- ============================================================= -->
+  <div id="sound-gate">
+    <div class="eyebrow">THE SOHAMVERSE</div>
+    <div class="display-lg">ONE HERO. ONE NIGHT.<br>ONE NEW LEVEL.</div>
+    <p class="muted" style="max-width:420px">This experience uses music and sound. Click below to enter with audio — or continue silently.</p>
+    <div style="display:flex; gap:1rem; flex-wrap:wrap; justify-content:center; margin-top:1rem;">
+      <button class="btn" id="btn-enter-sound">ENABLE SOUND &amp; ENTER</button>
+      <button class="btn ghost" id="btn-enter-silent">ENTER WITHOUT SOUND</button>
+    </div>
+  </div>
+
+  <!-- ============================================================= -->
+  <!-- 1. LOADING SCREEN                                                -->
+  <!-- ============================================================= -->
+  <section class="screen" id="screen-loading">
+    <div class="bg-noise"></div><div class="scanlines"></div>
+    <div class="loading-orb"></div>
+    <div class="loading-line" id="loading-text">INITIALIZING SOHAMVERSE...</div>
+    <div class="loading-bar-track"><div class="loading-bar-fill" id="loading-bar"></div></div>
+  </section>
+
+  <!-- ============================================================= -->
+  <!-- 2. COUNTDOWN SCREEN                                              -->
+  <!-- ============================================================= -->
+  <section class="screen" id="screen-countdown">
+    <div class="bg-vignette"></div>
+    <div class="eyebrow">SOHAM</div>
+    <div class="display-md" style="margin-top:.6rem;">LEVEL 18 UNLOCKS IN</div>
+    <div class="countdown-ring-wrap">
+      <div class="countdown-18">18</div>
+      <div class="countdown-ring"></div>
+      <div class="countdown-ring r2"></div>
+      <div class="countdown-ring r3"></div>
+      <div class="countdown-grid">
+        <div class="countdown-unit"><div class="countdown-num" id="cd-days">00</div><div class="countdown-label">Days</div></div>
+        <div class="countdown-unit"><div class="countdown-num" id="cd-hours">00</div><div class="countdown-label">Hours</div></div>
+        <div class="countdown-unit"><div class="countdown-num" id="cd-mins">00</div><div class="countdown-label">Minutes</div></div>
+        <div class="countdown-unit"><div class="countdown-num" id="cd-secs">00</div><div class="countdown-label">Seconds</div></div>
+      </div>
+    </div>
+    <div id="countdown-live-note">AWAITING LEVEL 18 · 13.08.2026 · 00:00 IST</div>
+  </section>
+
+  <!-- ============================================================= -->
+  <!-- 3. MIDNIGHT TRANSITION                                           -->
+  <!-- ============================================================= -->
+  <section class="screen" id="screen-midnight">
+    <div id="midnight-text" class="midnight-text"></div>
+  </section>
+
+  <!-- ============================================================= -->
+  <!-- 4. STORY (photos/videos/timeline) — built by JS                -->
+  <!-- ============================================================= -->
+  <section class="screen scrollable" id="screen-story"></section>
+
+  <!-- ============================================================= -->
+  <!-- 5. HUB (game selection) — built by JS                          -->
+  <!-- ============================================================= -->
+  <section class="screen scrollable" id="screen-hub"></section>
+
+  <!-- ============================================================= -->
+  <!-- 6. GAME (single active game) — built by JS                     -->
+  <!-- ============================================================= -->
+  <section class="screen scrollable" id="screen-game"></section>
+
+  <!-- ============================================================= -->
+  <!-- 7. FINAL REVEAL — built by JS                                   -->
+  <!-- ============================================================= -->
+  <section class="screen scrollable" id="screen-reveal"></section>
+
+</div>
+
+<script src="js/config.js"></script>
+<script src="js/audio.js"></script>
+<script src="js/sohamQuestions.js"></script>
+<script src="js/particles.js"></script>
+<script src="js/games.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
